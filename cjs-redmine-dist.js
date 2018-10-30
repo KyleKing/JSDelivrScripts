@@ -1,23 +1,70 @@
-// 1. Add CJS2 to Chrome: https://chrome.google.com/webstore/detail/custom-javascript-for-web/ddbjnfjiigjmcpcpkmhogomapikjbjdk
-// 2. Go to http://bondra.meso-scale.com/redmine
-// 3. Open the CJS editor. Paste the below snippet between the asterisks into the editor:
+/*
+1. Install CJS2 for Chrome: https://chrome.google.com/webstore/detail/custom-javascript-for-web/ddbjnfjiigjmcpcpkmhogomapikjbjdk
+2. Go to http://bondra.meso-scale.com/redmine
+3. Open the CJS editor (click the tool bar icon). Click on 'Load External Scripts' and paste:
+
+# Uncomment address of script below or type your own (one per line and must end with semi-colon)
+//cdnjs.cloudflare.com/ajax/libs/crel/3.1.0/crel.min.js;
+
+4. In the CJS editor, paste the below snippet
+*/
 
 /*
 // Modify header dimension to minimize GUI disruption
 $( '#top-menu' ).css( 'height', '2.5em' )
 $( '#top-menu' ).css( 'padding', '8px 5px 5px 5px' )
 // Source script file
-$( 'body' ).append(`
-  <script src="https://rawgit.com/KyleKing/8291f225868692e9d43ab552e4a35ae6/raw/cjs-redmine-dist.js"></script>
-`)
+$( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts@0/cjs-redmine-dist.js"></script>' )
+
+// Ian - Create Progress Bar
+
+if ( window.location.href.indexOf( 'MM_Procedures_-_Manufacturing_and_Service' ) !== -1 ) {
+  // For tables with 8 columns, store the status text in an array
+  //    Based on: https://stackoverflow.com/a/9579792/3219667
+  const issueStatuses = []
+  $( '.wiki.wiki-page table tr' ).each( function() {
+    const cells = $( this ).find( 'td' )
+    if ( cells.length === 8 )
+      issueStatuses.push( $( cells[1] ).text() )
+  } )
+  // Calculate the current progress
+  const countCompl = issueStatuses.filter( value => value === 'Complete' ).length
+  const progress = Math.floor( countCompl / issueStatuses.length * 100 )
+
+  // Create target for Crel to replace
+  const h6Target = $( $( 'h6' )[0] )
+  h6Target.after( '<div id="progress-crel-target"></div>' )
+
+  // Generate Table with Crel
+  crel( document.querySelector( '#progress-crel-target' ),
+    crel( 'h2', `Progress ${progress}% (${countCompl} Complete of ${issueStatuses.length}):` ),
+    crel( 'div', {'class': 'value', 'style': 'height: 45px'},
+      crel( 'table', {'class': `progress progress-${progress}`, 'style': 'display: inline-table'},
+        crel( 'tbody',
+          crel( 'tr',
+            crel( 'td', {'class': 'closed', 'style': `width: ${progress}%`, 'title': `${progress}%`} ),
+            crel( 'td', {'class': 'todo', 'style': `width: ${100 - progress}%`} )
+          )
+        )
+      )
+    )
+  )
+
+  // Remove original target
+  h6Target.remove()
+}
+
 */
 
 
-// For Firefox:
-// 1. Install the Add-on, GreaseMonkey: https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/
-// 2. From the icon, select new script
-// 3. Click the icon again and click the new script, then edit
-// 4. Paste the below snippet between the asterisks into the editor replacing any existing code:
+/*
+For Firefox:
+1. Install the Add-on, GreaseMonkey: https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/
+2. From the icon, select "New Script"
+3. Click the icon again and click the name of new script, then edit
+4. Replace the UserScript with the code below
+5. Below the UserScript, paste the same code from Chrome/CJS2 (above)
+*/
 
 /*
 // ==UserScript==
@@ -25,17 +72,9 @@ $( 'body' ).append(`
 // @version  1
 // @grant    none
 // @require https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @require https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // ==/UserScript==
-
-// Modify header dimension to minimize GUI disruption
-$( '#top-menu' ).css( 'height', '2.5em' )
-$( '#top-menu' ).css( 'padding', '8px 5px 5px 5px' )
-// Source script file
-$( 'body' ).append(`
-  <script src="https://rawgit.com/KyleKing/8291f225868692e9d43ab552e4a35ae6/raw/cjs-redmine-dist.js"></script>
-`)
 */
-
 
 // ==================================
 
@@ -55,6 +94,8 @@ if ( window.location.href.indexOf( 'MM_Procedures_-_Manufacturing_and_Service' )
   colorCell( 'status', 'Accepted', '#badcba' )
   colorCell( 'status', 'PCO/DCR Process', '#5cba5c' )
 } else {
+  colorCell( 'status', 'NA', '#ababab' )
+  colorCell( 'status', 'N/A', '#ababab' )
   colorCell( 'status', 'New', '#C0DBCC' )
   colorCell( 'status', 'Assigned', '#C0DBCC' )
   colorCell( 'status', 'Accepted', '#C0DBCC' )
@@ -64,6 +105,7 @@ if ( window.location.href.indexOf( 'MM_Procedures_-_Manufacturing_and_Service' )
   colorCell( 'status', 'Defer Until', '#231942' )
   colorCell( 'status', 'Queue', '#c3f7f2' )
   colorCell( 'status', 'In Progress', '#968ef9' )
+  colorCell( 'status', 'PCO/DCR Process', '#968ef9' )
   colorCell( 'status', 'Review', '#628db6' )
   colorCell( 'status', 'Rejected', '#E85555' )
   colorCell( 'status', 'Complete', '#55E897' )

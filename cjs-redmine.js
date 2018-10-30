@@ -1,39 +1,8 @@
-// 1. Add CJS2 to Chrome: https://chrome.google.com/webstore/detail/custom-javascript-for-web/ddbjnfjiigjmcpcpkmhogomapikjbjdk
-// 2. Go to http://bondra.meso-scale.com/redmine
-// 3. Open the CJS editor. Paste the below snippet between the asterisks into the editor:
-
 /*
-// Modify header dimension to minimize GUI disruption
-$( '#top-menu' ).css( 'height', '2.5em' )
-$( '#top-menu' ).css( 'padding', '8px 5px 5px 5px' )
-// Source script file
-$( 'body' ).append(`
-  <script src="https://rawgit.com/KyleKing/8291f225868692e9d43ab552e4a35ae6/raw/cjs-redmine-dist.js"></script>
-`)
-*/
 
+See install guide in cjs-redmine-dist.js:
+https://github.com/KyleKing/JSDelivrScripts/blob/master/cjs-redmine-dist.js
 
-// For Firefox:
-// 1. Install the Add-on, GreaseMonkey: https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/
-// 2. From the icon, select new script
-// 3. Click the icon again and click the new script, then edit
-// 4. Paste the below snippet between the asterisks into the editor replacing any existing code:
-
-/*
-// ==UserScript==
-// @name     Bondra-MesoScale
-// @version  1
-// @grant    none
-// @require https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
-// ==/UserScript==
-
-// Modify header dimension to minimize GUI disruption
-$( '#top-menu' ).css( 'height', '2.5em' )
-$( '#top-menu' ).css( 'padding', '8px 5px 5px 5px' )
-// Source script file
-$( 'body' ).append(`
-  <script src="https://rawgit.com/KyleKing/8291f225868692e9d43ab552e4a35ae6/raw/cjs-redmine-dist.js"></script>
-`)
 */
 
 // ==================================
@@ -85,6 +54,8 @@ if ( window.location.href.indexOf( 'MM_Procedures_-_Manufacturing_and_Service' )
   colorCell( 'status', 'Accepted', '#badcba' )
   colorCell( 'status', 'PCO/DCR Process', '#5cba5c' )
 } else {
+  colorCell( 'status', 'NA', '#ababab' )
+  colorCell( 'status', 'N/A', '#ababab' )
   colorCell( 'status', 'New', '#C0DBCC' )
   colorCell( 'status', 'Assigned', '#C0DBCC' )
   colorCell( 'status', 'Accepted', '#C0DBCC' )
@@ -94,6 +65,7 @@ if ( window.location.href.indexOf( 'MM_Procedures_-_Manufacturing_and_Service' )
   colorCell( 'status', 'Defer Until', '#231942' )
   colorCell( 'status', 'Queue', '#c3f7f2' )
   colorCell( 'status', 'In Progress', '#968ef9' )
+  colorCell( 'status', 'PCO/DCR Process', '#968ef9' )
   colorCell( 'status', 'Review', '#628db6' )
   colorCell( 'status', 'Rejected', '#E85555' )
   colorCell( 'status', 'Complete', '#55E897' )
