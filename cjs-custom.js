@@ -1,8 +1,12 @@
 // Modify header dimension to minimize GUI disruption
 $( '#top-menu' ).css( 'height', '2.5em' )
 $( '#top-menu' ).css( 'padding', '8px 5px 5px 5px' )
+// Force projects to align vertically
+$( '#projects-index li' ).css( 'break-inside', 'avoid' )
+$( '#projects-index li' ).css( '-webkit-column-break-inside', 'avoid' )
+$( '#projects-index li' ).css( 'page-break-inside', 'avoid' )
 // Source script file
-$( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts@0/cjs-redmine.js"></script>' )
+$( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts@latest/cjs-redmine.js"></script>' )
 
 // Add a gray background to specific text including in back ticks using ctrl_shift+h keyboard shortcut`
 const highlightText = function() {
@@ -81,3 +85,4 @@ if ( window.location.href.indexOf( 'MM_Procedures_-_Manufacturing_and_Service' )
   // Remove original target
   h6Target.remove()
 }
+

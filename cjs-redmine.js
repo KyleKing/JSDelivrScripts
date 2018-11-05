@@ -36,56 +36,69 @@ $( 'td.fixed_version > a' ).each( ( i, elem ) => {
     elem.innerHTML = match[1]
 } )
 
+
+//
+// // Color Sites:
+// https://htmlcolorcodes.com/resources/best-color-palette-generators/
+// https://mycolor.space/
+// http://colormind.io/
+//
+
+
 //
 //  Add colors to table cell boxes
 //
 
-const colorCell = function( className, value, color ) {
-  // Add highlighting to general issues list
-  $( `td.${className}:contains("${value}")` ).css( 'background-color', color )
-  // Add highlighting to status tables in Wiki
-  $( `.wiki-page td:contains("${value}")` ).css( 'background-color', color )
+const colorCell = function( className, value, color, text = '#1B374D', hover = '#c3f7f2' ) {
+  // Add highlighting to general issues list and to status tables in Wiki
+  const cssPatterns = [
+    `td.${className}:contains("${value}")`,
+    `.wiki-page td:contains("${value}")`,
+  ]
+  cssPatterns.map( ( pattern ) => {
+    $( pattern ).css( 'background-color', color )
+    if ( text !== false ) {
+      $( pattern ).css( 'color', text )
+      $( `${pattern} a` ).css( 'color', text )
+    }
+  } )
 }
 if ( window.location.href.indexOf( 'MM_Procedures_-_Manufacturing_and_Service' ) !== -1 ) {
   // custom colors for Ian's Redmine tracker
-  colorCell( 'status', 'Complete', '#ababab' )
-  colorCell( 'status', 'Rejected', '#E6B8B8' )
-  colorCell( 'status', 'On Hold', '#f4f489' )
-  colorCell( 'status', 'Accepted', '#badcba' )
-  colorCell( 'status', 'PCO/DCR Process', '#5cba5c' )
+  colorCell( 'status', 'Complete', '#CECECE', false )
+  colorCell( 'status', 'Rejected', '#E6B8B8', false )
+  colorCell( 'status', 'On Hold', '#f4f489', false )
+  colorCell( 'status', 'Accepted', '#badcba', false )
+  colorCell( 'status', 'PCO/DCR Process', '#5cba5c', false )
 } else {
-  colorCell( 'status', 'NA', '#ababab' )
-  colorCell( 'status', 'N/A', '#ababab' )
-  colorCell( 'status', 'New', '#C0DBCC' )
-  colorCell( 'status', 'Assigned', '#C0DBCC' )
-  colorCell( 'status', 'Accepted', '#C0DBCC' )
-  colorCell( 'status', 'Reassigned', '#C0DBCC' )
-  colorCell( 'status', 'Input', '#628db6' )
-  colorCell( 'status', 'On Hold', '#231942' )
-  colorCell( 'status', 'Defer Until', '#231942' )
+  colorCell( 'status', 'NA', '#CECECE', '#b5b5b5' )
+  colorCell( 'status', 'N/A', '#CECECE', '#b5b5b5' )
+  colorCell( 'status', 'Not Required', '#CECECE', '#b5b5b5' )
+  colorCell( 'status', 'New', '#C6ECD8' )
+  colorCell( 'status', 'Assigned', '#C6ECD8' )
+  colorCell( 'status', 'Accepted', '#C6ECD8' )
+  colorCell( 'status', 'Reassigned', '#C6ECD8' )
+  colorCell( 'status', 'Input', '#e6c6ec' )
+  colorCell( 'status', 'On Hold', '#1B374D', '#CECECE' )
+  colorCell( 'status', 'Defer Until', '#1B374D', '#CECECE' )
   colorCell( 'status', 'Queue', '#c3f7f2' )
-  colorCell( 'status', 'In Progress', '#968ef9' )
-  colorCell( 'status', 'PCO/DCR Process', '#968ef9' )
-  colorCell( 'status', 'Review', '#628db6' )
-  colorCell( 'status', 'Rejected', '#E85555' )
-  colorCell( 'status', 'Complete', '#55E897' )
+  colorCell( 'status', 'In Progress', '#13c1d6' )
+  colorCell( 'status', 'PCO/DCR Process', '#0697a8', '#bae5ff' )
+  colorCell( 'status', 'Review', '#0697a8' )
+  colorCell( 'status', 'Rejected', '#ecdcc6' )
+  colorCell( 'status', 'Complete', '#7dc493' )
 
   colorCell( 'status', 'Invalid issue ID', '#ffff00' )
 
   $( 'td.subject > a' ).css( 'font-weight', '400' )
 
-  $( 'td.priority:contains("Low")' ).css( 'color', '#CECECE' )
-  colorCell( 'priority', 'Normal', '#C0DBCC' ) // '#55E897' )
-  colorCell( 'priority', 'High', '#E88655' )
-  colorCell( 'priority', 'Urgent', '#E85555' )
-  colorCell( 'priority', 'Immediate', '#E85555' )
+  colorCell( 'priority', 'Low', '#CECECE' )
+  colorCell( 'priority', 'Normal', '#e1f2e9' )
+  colorCell( 'priority', 'High', '#FCA720' )
+  colorCell( 'priority', 'Urgent', '#EE502F' )
+  colorCell( 'priority', 'Immediate', '#EE502F' )
 }
 
-
-// Other Color Sites:
-// https://htmlcolorcodes.com/resources/best-color-palette-generators/
-// https://mycolor.space/
-// http://colormind.io/
 
 const assignBG = function( cell, colorMap ) {
   $( cell ).each( function() {
@@ -102,10 +115,13 @@ const assignBG = function( cell, colorMap ) {
       // Alt: https://coolors.co/f9dbbd-ffa5ab-da627d-a53860-450920
       // Alt: https://coolors.co/f9dbbd-ffa5ab-da627d-a53860-450920
       let bgColor = ''
+      let textColor = ''
       for ( let group of colorMap ) {
         if ( typeof( group[0] ) === 'number' ) {
           if ( diffDays >= group[0] ) {
             bgColor = group[1]
+            if ( group.length === 3 )
+              textColor = group[2]
             break
           }
         } else
@@ -113,28 +129,61 @@ const assignBG = function( cell, colorMap ) {
       }
       // console.log( `diffDays=${diffDays} / bgColor=${bgColor}` )
 
-      if ( bgColor.length > 0 )
+      if ( bgColor.length > 0 ) {
         $( this ).css( 'background-color', bgColor )
+        if ( textColor.length > 0 )
+          $( this ).css( 'color', textColor )
+      }
     }
   } )
 }
 
-assignBG( 'div.autoscroll td.due_date', [
-  [31,  '#4F000B'],
-  [7,  '#720026'],
-  [-1,  '#FF9B54'],
-  [-10,  '#FF7F51'],
-  [false,  '#CE4257'],
-] )
+// Semi-Color Scheme
+// '#EE502F'
+// '#FCA720'
+// '#f4f489'
+// '#e6c6ec'
+// '#C6ECD8'
+// '#13c1d6'
+// '#0697a8'
+// '#1B374D', '#CECECE'
 
-assignBG( 'div.autoscroll td.start_date', [
-  [60,  '#231942'],
-  [31,  '#5E548E'],
-  [7,  '#9F86C0'],
-  [-1,  '#BE95C4'],
-  [-15,  '#E0B1CB'],
-  [false,  '#FF9B54'],
-] )
+let colorScheme = [
+  [45,  '#1B374D', '#CECECE'],
+  [31,  '#C6ECD8'],
+  [7,  '#13c1d6'],
+  [-7,  '#e6c6ec'],
+  [-15,  '#ffd087'],
+  [-31,  '#FCA720'],
+  [false,  '#EE502F'],
+]
+assignBG( 'div.autoscroll td.due_date', colorScheme )
+assignBG( 'div.autoscroll td.start_date', colorScheme.map( ( group ) => {
+  // Shift date for color scheme and replace 'false' color
+  if ( typeof( group[0] ) === 'number' )
+    group[0] -= 35
+  else
+    group[1] = '#ff8066'
+  return( group )
+} ) )
+
+
+// FYI: Old pattern
+// assignBG( 'div.autoscroll td.due_date', [
+//   [31,  '#4F000B'],
+//   [7,  '#720026'],
+//   [-1,  '#FF9B54'],
+//   [-10,  '#FF7F51'],
+//   [false,  '#CE4257'],
+// ] )
+// assignBG( 'div.autoscroll td.start_date', [
+//   [60,  '#1B374D'],
+//   [31,  '#5E548E'],
+//   [7,  '#9F86C0'],
+//   [-1,  '#BE95C4'],
+//   [-15,  '#E0B1CB'],
+//   [false,  '#FF9B54'],
+// ] )
 
 
 //
@@ -178,11 +227,11 @@ const custStyles = [
     text-decoration: none;
   }
 
-  #projects-index li {
+  /* #projects-index li {
     break-inside: avoid;
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
-  }
+  } >> Now declared in CJS pop-up for faster load */
 
   td.last_notes {
     background-color: #e2e1e1;
