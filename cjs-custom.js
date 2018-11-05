@@ -6,22 +6,7 @@ $( '#projects-index li' ).css( 'break-inside', 'avoid' )
 $( '#projects-index li' ).css( '-webkit-column-break-inside', 'avoid' )
 $( '#projects-index li' ).css( 'page-break-inside', 'avoid' )
 // Source script file
-$( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts@latest/cjs-redmine.js"></script>' )
-
-// Add a gray background to specific text including in back ticks using ctrl_shift+h keyboard shortcut`
-const highlightText = function() {
-  const targetId = document.activeElement.id
-  if ( targetId.length > 0 ) {
-    console.log( `Highlighting text for: #${targetId}` )
-    const text = $( `#${targetId}` ).val()
-    const withSyntaxHighlight = text.replace( /`([^`]+)`/g, '%{background:#ededed}$1%' )
-    $( `#${targetId}` ).val( withSyntaxHighlight )
-  }
-}
-document.addEventListener( 'keydown', ( event ) => {
-  if ( event.ctrlKey && event.shiftKey && event.key === 'H' )
-    highlightText()
-} )
+$( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts/cjs-redmine-dist.js"></script>' )
 
 
 // Add menu buttons to trigger different auto-form fills
@@ -37,14 +22,6 @@ if ( menuItems.length === 2 ) {
     )
   )
 }
-
-// Set the Resolution and Progress Summary to TBD if either still at default
-const idResolution = '#issue_custom_field_values_1'
-if ( $( idResolution ).val() === 'text' )
-  $( idResolution ).val( 'TBD' )
-const idProgSum = '#issue_custom_field_values_32'
-if ( $( idProgSum ).val() === 'to be updated.' )
-  $( idProgSum ).val( 'TBD' )
 
 // =====================================================================================================================
 

@@ -5,17 +5,46 @@ https://github.com/KyleKing/JSDelivrScripts/blob/master/cjs-redmine-dist.js
 
 */
 
-// ==================================
 
+// // Color Sites:
+// https://htmlcolorcodes.com/resources/best-color-palette-generators/
+// https://mycolor.space/
+// http://colormind.io/
+
+// -----------------------------------------------------------------------------
+
+// Experiment with setting color variables
+// `
+// :root {
+//   --main-bg-color: #e0e0e0;
+//   --main-bg-accent-bright: #777777;
+//   --main-bg-accent-dull: #474747;
 //
-// Pre-Populate Fields in Ticket
+//   --main-font-color: #ffffff;
+//   --main-font-color-alt: #e0e0e0;
+//   --link-font-color: #ffc8a3;
 //
+//   --button-bg: #628db6;
+//   --button-bg-hover: #628db6;
+//   --button-border: #628db6;
+//   --button-border-hover: white;
+//
+//   --purple: brown;
+//   --orange: brown;
+//   --green-bright: #5fdeaf;
+//   --green-dull: #b5bd68;
+//   --blue: brown;
+// }
+//
+// body {
+//   background-color: var(--main-bg-color) ;
+//   color: var(--main-font-color);
+// }`,
 
-// Set the Resolution to TBD if still at default
-const idInput = '#issue_custom_field_values_2'
-if ( $( idInput ).val() === 'text' )
-  $( idInput ).val( 'TBD' )
+// -----------------------------------------------------------------------------
 
+
+// =============================================================================
 
 //
 //  Improve UI
@@ -38,18 +67,10 @@ $( 'td.fixed_version > a' ).each( ( i, elem ) => {
 
 
 //
-// // Color Sites:
-// https://htmlcolorcodes.com/resources/best-color-palette-generators/
-// https://mycolor.space/
-// http://colormind.io/
-//
-
-
-//
 //  Add colors to table cell boxes
 //
 
-const colorCell = function( className, value, color, text = '#1B374D', hover = '#c3f7f2' ) {
+const colorCell = function( className, value, color, text = false ) {
   // Add highlighting to general issues list and to status tables in Wiki
   const cssPatterns = [
     `td.${className}:contains("${value}")`,
@@ -57,7 +78,7 @@ const colorCell = function( className, value, color, text = '#1B374D', hover = '
   ]
   cssPatterns.map( ( pattern ) => {
     $( pattern ).css( 'background-color', color )
-    if ( text !== false ) {
+    if ( typeof( text ) === 'string' ) {
       $( pattern ).css( 'color', text )
       $( `${pattern} a` ).css( 'color', text )
     }
@@ -138,21 +159,10 @@ const assignBG = function( cell, colorMap ) {
   } )
 }
 
-// Semi-Color Scheme
-// '#EE502F'
-// '#FCA720'
-// '#f4f489'
-// '#e6c6ec'
-// '#C6ECD8'
-// '#13c1d6'
-// '#0697a8'
-// '#1B374D', '#CECECE'
-
 let colorScheme = [
-  [45,  '#1B374D', '#CECECE'],
-  [31,  '#C6ECD8'],
+  [31,  '#1B374D', '#CECECE'],
+  [14,  '#0697a8'],
   [7,  '#13c1d6'],
-  [-7,  '#e6c6ec'],
   [-15,  '#ffd087'],
   [-31,  '#FCA720'],
   [false,  '#EE502F'],
@@ -166,24 +176,6 @@ assignBG( 'div.autoscroll td.start_date', colorScheme.map( ( group ) => {
     group[1] = '#ff8066'
   return( group )
 } ) )
-
-
-// FYI: Old pattern
-// assignBG( 'div.autoscroll td.due_date', [
-//   [31,  '#4F000B'],
-//   [7,  '#720026'],
-//   [-1,  '#FF9B54'],
-//   [-10,  '#FF7F51'],
-//   [false,  '#CE4257'],
-// ] )
-// assignBG( 'div.autoscroll td.start_date', [
-//   [60,  '#1B374D'],
-//   [31,  '#5E548E'],
-//   [7,  '#9F86C0'],
-//   [-1,  '#BE95C4'],
-//   [-15,  '#E0B1CB'],
-//   [false,  '#FF9B54'],
-// ] )
 
 
 //
@@ -273,33 +265,6 @@ const custStyles = [
       font-size: 1.3em;
       padding: 10px;
   }`,
-  // Experiment with setting color variables
-  // `
-  // :root {
-  //   --main-bg-color: #e0e0e0;
-  //   --main-bg-accent-bright: #777777;
-  //   --main-bg-accent-dull: #474747;
-  //
-  //   --main-font-color: #ffffff;
-  //   --main-font-color-alt: #e0e0e0;
-  //   --link-font-color: #ffc8a3;
-  //
-  //   --button-bg: #628db6;
-  //   --button-bg-hover: #628db6;
-  //   --button-border: #628db6;
-  //   --button-border-hover: white;
-  //
-  //   --purple: brown;
-  //   --orange: brown;
-  //   --green-bright: #5fdeaf;
-  //   --green-dull: #b5bd68;
-  //   --blue: brown;
-  // }
-  //
-  // body {
-  //   background-color: var(--main-bg-color) ;
-  //   color: var(--main-font-color);
-  // }`,
 
 ]
 const cssDiv = `<style type="text/css">
@@ -309,10 +274,25 @@ const cssDiv = `<style type="text/css">
 // console.log( `Adding Custom Styles:\n${cssDiv}\n` )
 $( 'head' ).append( cssDiv )
 
+
 //
-// Code from autfill form
-//  Plan to create buttons on top, which can autocomplete on demand
+// Keyboard Shortcuts
 //
+
+// Add a gray background to specific text including in back ticks using ctrl_shift+h keyboard shortcut`
+const highlightText = function() {
+  const targetId = document.activeElement.id
+  if ( targetId.length > 0 ) {
+    console.log( `Highlighting text for: #${targetId}` )
+    const text = $( `#${targetId}` ).val()
+    const withSyntaxHighlight = text.replace( /`([^`]+)`/g, '%{background:#ededed}$1%' )
+    $( `#${targetId}` ).val( withSyntaxHighlight )
+  }
+}
+document.addEventListener( 'keydown', ( event ) => {
+  if ( event.ctrlKey && event.shiftKey && event.key === 'H' )
+    highlightText()
+} )
 
 // Add shortcut for "ctrl enter" to submit either edits to a note or edits to a form
 document.addEventListener( 'keydown', ( event ) => {
@@ -326,6 +306,23 @@ document.addEventListener( 'keydown', ( event ) => {
       console.warn( `Unknown form: ${document.activeElement}` )
   }
 } )
+
+
+// Set the Resolution and Progress Summary to TBD if either still at default
+const idResolution = '#issue_custom_field_values_1'
+if ( $( idResolution ).val() === 'text' )
+  $( idResolution ).val( 'TBD' )
+const idProgSum = '#issue_custom_field_values_32'
+if ( $( idProgSum ).val() === 'to be updated.' )
+  $( idProgSum ).val( 'TBD' )
+
+
+// =============================================================================
+
+//
+// Code from autfill form
+//  Plan to create buttons on top, which can autocomplete on demand
+//
 
 // // Can't prevent filter...
 // $( 'a' ).on( 'click', ( ) => {

@@ -14,7 +14,7 @@
 $( '#top-menu' ).css( 'height', '2.5em' )
 $( '#top-menu' ).css( 'padding', '8px 5px 5px 5px' )
 // Source script file
-$( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts@latest/cjs-redmine-dist.js"></script>' )
+$( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts/cjs-redmine-dist.js"></script>' )
 
 // Ian - Create Progress Bar
 
@@ -78,9 +78,31 @@ For Firefox:
 
 // ==================================
 
-//  Add colors to table cell boxes
+//
+//  Improve UI
+//
 
-const colorCell = function( className, value, color, text = '#1B374D', hover = '#c3f7f2' ) {
+// Set the col name to briefer title
+$( 'th > a' ).each( function() {
+  if ( this.outerText === 'Desired Completion Date' )
+    $( this ).text( 'Desired' )
+} )
+
+// Abbreviate the Fixed Version Names
+$( 'td.fixed_version > a' ).each( ( i, elem ) => {
+  // console.log( elem.outerText )
+  const rUniqVerName = /[^-]+\s+-\s+(.*)/
+  const match = rUniqVerName.exec( elem.outerText )
+  if ( match )
+    elem.innerHTML = match[1]
+} )
+
+
+//
+//  Add colors to table cell boxes
+//
+
+const colorCell = function( className, value, color, text = false ) {
   // Add highlighting to general issues list and to status tables in Wiki
   const cssPatterns = [
     `td.${className}:contains("${value}")`,
@@ -88,7 +110,7 @@ const colorCell = function( className, value, color, text = '#1B374D', hover = '
   ]
   cssPatterns.map( ( pattern ) => {
     $( pattern ).css( 'background-color', color )
-    if ( text !== false ) {
+    if ( typeof( text ) === 'string' ) {
       $( pattern ).css( 'color', text )
       $( `${pattern} a` ).css( 'color', text )
     }
@@ -169,21 +191,10 @@ const assignBG = function( cell, colorMap ) {
   } )
 }
 
-// Semi-Color Scheme
-// '#EE502F'
-// '#FCA720'
-// '#f4f489'
-// '#e6c6ec'
-// '#C6ECD8'
-// '#13c1d6'
-// '#0697a8'
-// '#1B374D', '#CECECE'
-
 let colorScheme = [
-  [45,  '#1B374D', '#CECECE'],
-  [31,  '#C6ECD8'],
+  [31,  '#1B374D', '#CECECE'],
+  [14,  '#0697a8'],
   [7,  '#13c1d6'],
-  [-7,  '#e6c6ec'],
   [-15,  '#ffd087'],
   [-31,  '#FCA720'],
   [false,  '#EE502F'],
@@ -199,7 +210,9 @@ assignBG( 'div.autoscroll td.start_date', colorScheme.map( ( group ) => {
 } ) )
 
 
+//
 // Create dynamic CSS styles
+//
 
 const custStyles = [
   `
@@ -237,6 +250,12 @@ const custStyles = [
     border: 1px solid white;
     text-decoration: none;
   }
+
+  /* #projects-index li {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+  } >> Now declared in CJS pop-up for faster load */
 
   td.last_notes {
     background-color: #e2e1e1;
@@ -286,3 +305,45 @@ const cssDiv = `<style type="text/css">
 
 // console.log( `Adding Custom Styles:\n${cssDiv}\n` )
 $( 'head' ).append( cssDiv )
+
+
+//
+// Keyboard Shortcuts
+//
+
+// Add a gray background to specific text including in back ticks using ctrl_shift+h keyboard shortcut`
+const highlightText = function() {
+  const targetId = document.activeElement.id
+  if ( targetId.length > 0 ) {
+    console.log( `Highlighting text for: #${targetId}` )
+    const text = $( `#${targetId}` ).val()
+    const withSyntaxHighlight = text.replace( /`([^`]+)`/g, '%{background:#ededed}$1%' )
+    $( `#${targetId}` ).val( withSyntaxHighlight )
+  }
+}
+document.addEventListener( 'keydown', ( event ) => {
+  if ( event.ctrlKey && event.shiftKey && event.key === 'H' )
+    highlightText()
+} )
+
+// Add shortcut for "ctrl enter" to submit either edits to a note or edits to a form
+document.addEventListener( 'keydown', ( event ) => {
+  if ( event.ctrlKey && event.key === 'Enter' && document.getElementById( 'issue-form' ) ) {
+    // If editing a comment, submit that form. Otherwise submit the full ticket
+    if ( document.activeElement.id.indexOf( 'journal' ) === 0 )
+      $( '.journal.has-notes [name="commit"]' )[0].click()
+    else if ( document.activeElement.form.id === 'issue-form' )
+      $( '#issue-form [name="commit"]' )[0].form.submit()
+    else
+      console.warn( `Unknown form: ${document.activeElement}` )
+  }
+} )
+
+
+// Set the Resolution and Progress Summary to TBD if either still at default
+const idResolution = '#issue_custom_field_values_1'
+if ( $( idResolution ).val() === 'text' )
+  $( idResolution ).val( 'TBD' )
+const idProgSum = '#issue_custom_field_values_32'
+if ( $( idProgSum ).val() === 'to be updated.' )
+  $( idProgSum ).val( 'TBD' )
