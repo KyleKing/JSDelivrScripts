@@ -6,27 +6,11 @@ $( '#projects-index li' ).css( 'break-inside', 'avoid' )
 $( '#projects-index li' ).css( '-webkit-column-break-inside', 'avoid' )
 $( '#projects-index li' ).css( 'page-break-inside', 'avoid' )
 // Source script file
-$( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts/cjs-redmine-dist.js"></script>' )
+// $( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts/cjs-redmine-dist.js"></script>' )
+// FIXME: blank/@latest are not working
+$( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts@0.0.5/cjs-redmine-dist.js"></script>' )
 
-
-// Add menu buttons to trigger different auto-form fills
-var rmHref = 'http://bondra.meso-scale.com/redmine/projects/'
-const menuItems = document.querySelectorAll( '#top-menu ul' )
-if ( menuItems.length === 2 ) {
-  crel( document.querySelectorAll( '#top-menu ul' )[1],
-    crel( 'li',
-      crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}methodical-mind/wiki`}, 'MM' )
-    ),
-    crel( 'li',
-      crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}mm-ita-tool/dmsf`}, 'ITA' )
-    )
-  )
-}
-
-// =====================================================================================================================
-
-// Ian - Create Progress Bar
-
+// Create Progress Bar for MM Procedures Progress (Ian)
 if ( window.location.href.indexOf( 'MM_Procedures_-_Manufacturing_and_Service' ) !== -1 ) {
   // For tables with 8 columns, store the status text in an array
   //    Based on: https://stackoverflow.com/a/9579792/3219667
@@ -63,3 +47,35 @@ if ( window.location.href.indexOf( 'MM_Procedures_-_Manufacturing_and_Service' )
   h6Target.remove()
 }
 
+// =====================================================================================================================
+
+// Add menu buttons to trigger different auto-form fills
+var rmHref = 'http://bondra.meso-scale.com/redmine/projects/'
+const menuItems = document.querySelectorAll( '#top-menu ul' )
+if ( menuItems.length === 2 ) {
+  crel( document.querySelectorAll( '#top-menu ul' )[1],
+    crel( 'li', {}, crel( 'p', {'style': 'margin: 10px'}, ' ' ) ),
+    crel( 'li',
+      crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}methodical-mind/wiki`}, 'MM-Wiki' )
+    ),
+    crel( 'li',
+      crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}mm-ita-tool/dmsf`}, 'TCS-DMSF' )
+    ),
+    crel( 'li',
+      crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}methodical-mind/wiki/MM_Procedures_-_ITA`}, 'TCS-Prog' )
+    ),
+    crel( 'li',
+      crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}methodical-mind/wiki/MM_Procedures_-_Manufacturing_and_Service`}, 'MFG-Prog' )  // eslint-disable-line
+    ),
+    crel( 'li', {}, crel( 'p', {'style': 'margin: 10px'}, ' ' ) ),
+    crel( 'li',
+      crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}s600/dmsf`}, 'S600' )
+    ),
+    crel( 'li',
+      crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}m1300/dmsf`}, 'M1300' )
+    ),
+    crel( 'li',
+      crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}m1350/dmsf`}, 'M1350' )
+    )
+  )
+}

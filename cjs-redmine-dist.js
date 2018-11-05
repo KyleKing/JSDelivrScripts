@@ -102,7 +102,7 @@ $( 'td.fixed_version > a' ).each( ( i, elem ) => {
 //  Add colors to table cell boxes
 //
 
-const colorCell = function( className, value, color, text = false ) {
+const colorCell = function( className, value, color, text = '#1B374D' ) {
   // Add highlighting to general issues list and to status tables in Wiki
   const cssPatterns = [
     `td.${className}:contains("${value}")`,
@@ -208,6 +208,19 @@ assignBG( 'div.autoscroll td.start_date', colorScheme.map( ( group ) => {
     group[1] = '#ff8066'
   return( group )
 } ) )
+
+// Apply GDP date format
+let keys = ['start_date', 'cf_12.date', 'due_date']
+let monthLookup = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+keys.map( ( className ) => {
+  $( `div.autoscroll td.${className}` ).each( function() {
+    const date = $( this ).text()
+    if ( date.indexOf( '/' ) !== -1 ) {
+      const [month, day, year] = date.split( '/' )
+      $( this ).text( `${day}${monthLookup[month - 1]}${year}` )
+    }
+  } )
+} )
 
 
 //
@@ -341,9 +354,12 @@ document.addEventListener( 'keydown', ( event ) => {
 
 
 // Set the Resolution and Progress Summary to TBD if either still at default
-const idResolution = '#issue_custom_field_values_1'
-if ( $( idResolution ).val() === 'text' )
-  $( idResolution ).val( 'TBD' )
+const ids = [1, 2]
+ids.map( ( id ) => {
+  const idResolution = `#issue_custom_field_values_${id}`
+  if ( $( idResolution ).val() === 'text' )
+    $( idResolution ).val( 'TBD' )
+} )
 const idProgSum = '#issue_custom_field_values_32'
 if ( $( idProgSum ).val() === 'to be updated.' )
   $( idProgSum ).val( 'TBD' )
