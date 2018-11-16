@@ -6,19 +6,26 @@ $( '#projects-index li' ).css( 'break-inside', 'avoid' )
 $( '#projects-index li' ).css( '-webkit-column-break-inside', 'avoid' )
 $( '#projects-index li' ).css( 'page-break-inside', 'avoid' )
 // Source script file
-// $( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts/cjs-redmine-dist.js"></script>' )
-// FIXME: blank/@latest are not working
-$( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts@0.0.5/cjs-redmine-dist.js"></script>' )
+const scriptURL = 'https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts@latest/cjs-redmine-dist.js'
+$( 'body' ).append( `<script src="${scriptURL}"></script>` )
 
 // Create Progress Bar for MM Procedures Progress (Ian)
 if ( window.location.href.indexOf( 'MM_Procedures_-_Manufacturing_and_Service' ) !== -1 ) {
   // For tables with 8 columns, store the status text in an array
   //    Based on: https://stackoverflow.com/a/9579792/3219667
   const issueStatuses = []
+  var summaryTable = null
   $( '.wiki.wiki-page table tr' ).each( function() {
+    // Locate summary table
+    if ( summaryTable === null ) {
+      if ( $( this ).find( 'th' ).length === 3 )
+        summaryTable = this
+    }
+    // Combine text from all cells
     const cells = $( this ).find( 'td' )
     if ( cells.length === 8 )
-      issueStatuses.push( $( cells[1] ).text() )
+      // issueStatuses.push( $( cells[1] ).text() )
+      issueStatuses.push( cells[1].textContent.trim() )
   } )
   // Calculate the current progress
   const countCompl = issueStatuses.filter( value => value === 'Complete' ).length
@@ -45,6 +52,20 @@ if ( window.location.href.indexOf( 'MM_Procedures_-_Manufacturing_and_Service' )
 
   // Remove original target
   h6Target.remove()
+
+  if ( summaryTable !== null ) {
+    $( summaryTable.parentElement ).find( 'td' ).contents().filter( function() {
+      return this.textContent.indexOf( 'COUNT:' ) !== -1
+    } ).each( function() {
+      // First separate out 'COUNT:' identifier, then count number of tickets for each key separate by '+' signs
+      const counts = this.textContent.split( ':' )[1].split( '+' )
+        .map( key => issueStatuses.filter( value => value === key.trim() ).length )
+      const ticketCount = counts.reduce( ( accum, curr ) => accum + curr )
+      // Update text in given cell with calculation
+      this.textContent = `${ticketCount} ticket${ticketCount > 1: 's' : ''}${counts.length > 1 ? ` (${counts})` : ''}`
+    } )
+  }
+
 }
 
 // =====================================================================================================================
@@ -59,7 +80,7 @@ if ( menuItems.length === 2 ) {
       crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}methodical-mind/wiki`}, 'MM-Wiki' )
     ),
     crel( 'li',
-      crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}mm-ita-tool/dmsf`}, 'TCS-DMSF' )
+      crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}mm-ita-tool/dmsf`}, 'TCS-DMS' )
     ),
     crel( 'li',
       crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}methodical-mind/wiki/MM_Procedures_-_ITA`}, 'TCS-Prog' )

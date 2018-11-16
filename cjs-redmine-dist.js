@@ -14,7 +14,7 @@
 $( '#top-menu' ).css( 'height', '2.5em' )
 $( '#top-menu' ).css( 'padding', '8px 5px 5px 5px' )
 // Source script file
-$( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts/cjs-redmine-dist.js"></script>' )
+$( 'body' ).append( '<script src="https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts@latest/cjs-redmine-dist.js"></script>' )
 
 // Ian - Create Progress Bar
 
@@ -278,7 +278,7 @@ const custStyles = [
   td.priority:hover,
   td.due_date:hover,
   td.start_date:hover {
-    background-color: #c3f7f2 !important;
+    background-color: ##ffffdd !important;
   }
 
   .wiki-page td:hover {
