@@ -1,10 +1,6 @@
 // Modify header dimension to minimize GUI disruption
 $( '#top-menu' ).css( 'height', '2.5em' )
 $( '#top-menu' ).css( 'padding', '8px 5px 5px 5px' )
-// Force projects to align vertically
-$( '#projects-index li' ).css( 'break-inside', 'avoid' )
-$( '#projects-index li' ).css( '-webkit-column-break-inside', 'avoid' )
-$( '#projects-index li' ).css( 'page-break-inside', 'avoid' )
 // Source script file
 const scriptURL = 'https://cdn.jsdelivr.net/gh/KyleKing/JSDelivrScripts@latest/cjs-redmine-dist.js'
 $( 'body' ).append( `<script src="${scriptURL}"></script>` )
@@ -62,13 +58,18 @@ if ( window.location.href.indexOf( 'MM_Procedures_-_Manufacturing_and_Service' )
         .map( key => issueStatuses.filter( value => value === key.trim() ).length )
       const ticketCount = counts.reduce( ( accum, curr ) => accum + curr )
       // Update text in given cell with calculation
-      this.textContent = `${ticketCount} ticket${ticketCount > 1: 's' : ''}${counts.length > 1 ? ` (${counts})` : ''}`
+      this.textContent = `${ticketCount} ticket${ticketCount > 1 ? 's' : ''}${counts.length > 1 ? ` (${counts})` : ''}`
     } )
   }
 
 }
 
 // =====================================================================================================================
+
+// Force projects to align vertically
+$( '#projects-index li' ).css( 'break-inside', 'avoid' )
+$( '#projects-index li' ).css( '-webkit-column-break-inside', 'avoid' )
+$( '#projects-index li' ).css( 'page-break-inside', 'avoid' )
 
 // Add menu buttons to trigger different auto-form fills
 var rmHref = 'http://bondra.meso-scale.com/redmine/projects/'

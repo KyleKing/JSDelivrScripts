@@ -287,7 +287,7 @@ const custStyles = [
 
   pre {
     max-height: 900px;
-    overflow-y: auto;
+    overflow-y: scroll !important;
   }
 
   .journal.has-notes .wiki {
