@@ -313,13 +313,11 @@ document.addEventListener( 'keydown', ( event ) => {
 } )
 
 
-// Set the Resolution and Progress Summary to TBD if either still at default
-const ids = [1, 2]
-ids.map( ( id ) => {
-  const idResolution = `#issue_custom_field_values_${id}`
-  if ( $( idResolution ).val() === 'text' )
-    $( idResolution ).val( 'TBD' )
+// Set the References, Resolution, and Progress Summary to blank if at default
+const ids = [1, 2, 32]
+ids.map( ( idNum ) => {
+  const idTextInput = `#issue_custom_field_values_${idNum}`
+  const val = $( idTextInput ).val()
+  if ( val === 'None' || val === 'text' || val === 'TBD' || val === 'to be updated.' )
+    $( idTextInput ).val( '' )
 } )
-const idProgSum = '#issue_custom_field_values_32'
-if ( $( idProgSum ).val() === 'to be updated.' )
-  $( idProgSum ).val( 'TBD' )
