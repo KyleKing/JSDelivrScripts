@@ -152,22 +152,26 @@ const assignBG = function( cell, colorMap ) {
 }
 
 let colorScheme = [
-  [31,  '#1B374D', '#CECECE'],
-  [14,  '#0697a8'],
-  [7,  '#13c1d6'],
-  [-15,  '#ffd087'],
-  [-31,  '#FCA720'],
+  [35,  '#1B374D', '#CECECE'],
+  [21,  '#0697a8'],
+  [1,  '#13c1d6'],
+  [-7,  '#ffd087'],
+  [-21,  '#FCA720'],
   [false,  '#EE502F'],
 ]
 assignBG( 'div.autoscroll td.due_date', colorScheme )
-assignBG( 'div.autoscroll td.start_date', colorScheme.map( ( group ) => {
-  // Shift date for color scheme and replace 'false' color
-  if ( typeof( group[0] ) === 'number' )
-    group[0] -= 35
-  else
-    group[1] = '#ff8066'
-  return( group )
-} ) )
+assignBG( 'div.autoscroll td.cf_12.date', colorScheme )
+// // Trick for deep copy without external library
+// let csStart = JSON.parse( JSON.stringify( colorScheme ) )
+// assignBG( 'div.autoscroll td.start_date', csStart.map( ( group ) => {
+//   // Shift dates for color scheme and replace 'false' color
+//   if ( typeof( group[0] ) === 'number' )
+//     group[0] += 35
+//   else
+//     group[1] = '#ff8066'
+//   return( group )
+// } ) )
+
 
 // Apply GDP date format
 let keys = ['start_date', 'cf_12.date', 'due_date']
