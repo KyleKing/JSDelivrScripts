@@ -7,15 +7,8 @@
 # Uncomment address of script below or type your own (one per line and must end with semi-colon)
 //cdnjs.cloudflare.com/ajax/libs/crel/3.1.0/crel.min.js;
 
-4. In the CJS editor, paste the below snippet
+4. In the CJS editor, paste the code from `cjs-custom.js`
 */
-
-/*
-
-<See cjs-custom.js>
-
-*/
-
 
 /*
 For Firefox:
@@ -23,17 +16,19 @@ For Firefox:
 2. From the icon, select "New Script"
 3. Click the icon again and click the name of new script, then edit
 4. Replace the UserScript with the code below
-5. Below the UserScript, paste the same code from Chrome/CJS2 (above)
-*/
 
-/*
 // ==UserScript==
 // @name     Bondra-MesoScale
 // @version  1
 // @grant    none
 // @require https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
-// @require https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @require https://cdnjs.cloudflare.com/ajax/libs/crel/3.1.0/crel.min.js
 // ==/UserScript==
+
+5. Below the UserScript section, paste the code from `cjs-custom.js`
+*/
+
+/*
 */
 
 // ==================================
@@ -250,7 +245,7 @@ const custStyles = [
   }
 
   pre {
-    max-height: 900px;
+    max-height: 450px;
     overflow-y: scroll !important;
   }
 
