@@ -71,7 +71,13 @@ if ( menuItems.length === 2 ) {
       crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}mm-ita-tool/dmsf`}, 'TCS-DMS' )
     ),
     crel( 'li',
+      crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}mm-software/dmsf?folder_id=301`}, 'MM-SW Lg Files' )
+    ),
+    crel( 'li',
       crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}methodical-mind/wiki/MM_Procedures_-_ITA`}, 'TCS-Prog' )
+    ),
+    crel( 'li',
+      crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}mm-software/wiki/MM_Error_Tracker`}, 'MM-ErrTracker' )
     ),
     crel( 'li',
       crel( 'a', {'class': 'custom-li-btn', 'href': `${rmHref}methodical-mind/wiki/MM_Procedures_-_Manufacturing_and_Service`}, 'MFG-Prog' )  // eslint-disable-line
