@@ -266,6 +266,7 @@ const custStyles = [
   }
 
   ul.toc {
+      background-color: #f7e6ae9e;
       font-size: 1.3em;
       padding: 10px;
   }`,
