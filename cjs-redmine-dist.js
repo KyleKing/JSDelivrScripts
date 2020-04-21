@@ -270,7 +270,13 @@ const custStyles = [
       font-size: 1.3em;
       padding: 10px;
   }`,
-
+  `
+  /* Extend width of inputs to show full label. Resolves #5939 */
+  #dmsf_file_revision_name,
+  #dmsf_file_revision_title,
+  #dmsf_folder_title {
+    min-width: 95%;
+  }`,
 ]
 const cssDiv = `<style type="text/css">
   ${custStyles.join( '\n' )}
