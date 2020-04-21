@@ -207,10 +207,10 @@ const custStyles = [
   }
 
   /* Increase the menu size to make the elements easier to click */
-  /* #top-menu {
+  #top-menu {
     height: 2.5em;
     padding: 8px 5px 5px 5px;
-  } >> Now declared in CJS pop-up for faster load */
+  }
   #top-menu ul li a {
     border: 1px solid #628db6;
     border-radius: 4px;
@@ -222,12 +222,11 @@ const custStyles = [
     border: 1px solid white;
     text-decoration: none;
   }
-
-  /* #projects-index li {
+  #projects-index li {
     break-inside: avoid;
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
-  } >> Now declared in CJS pop-up for faster load */
+  }
 
   td.last_notes {
     background-color: #e2e1e1;
@@ -273,9 +272,16 @@ const custStyles = [
   `
   /* Extend width of inputs to show full label. Resolves #5939 */
   #dmsf_file_revision_name,
-  #dmsf_file_revision_title,
+  #dmsf_file_revision_title {
+    min-width: 95% !important;
+  }
+
+  #new_dmsf_folder span.select2-container,
   #dmsf_folder_title {
-    min-width: 95%;
+    min-width: 65% !important;
+  }
+  #select2-dmsf_folder_dmsf_folder_id-container {
+    min-width: 100% !important;
   }`,
 ]
 const cssDiv = `<style type="text/css">
