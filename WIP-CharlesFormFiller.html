@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>This example uses the addEventListener() method to attach a "paste" event to an input element.</p>
+
+<input type="text" id="myInput" placeholder="Try to paste something in here" size="40">
+
+<script>
+const target = document.querySelector('#myInput');
+
+target.addEventListener('paste', (event) => {
+    var paste = (event.clipboardData || window.clipboardData).getData('text');
+	console.log(paste);
+
+    var lines = paste.split('\n');
+    if (lines.length < 2) {
+    	console.log('Not enough input');
+    	return false;
+    }
+    for (let idx = 0; idx < lines.length; idx++) {
+        console.log(lines[idx]);
+    }
+
+    const selection = window.getSelection();
+    console.log(selection);
+    // if (!selection.rangeCount) {
+    //   return false;
+    // }
+    // selection.deleteFromDocument();
+    // selection.getRangeAt(0).insertNode(document.createTextNode(paste));
+
+    event.preventDefault();
+});
+</script>
+
+</body>
+</html>
