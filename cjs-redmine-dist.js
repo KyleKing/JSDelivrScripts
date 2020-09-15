@@ -307,7 +307,7 @@ const highlightText = function() {
   }
 }
 document.addEventListener( 'keydown', ( event ) => {
-  if ( event.ctrlKey && event.shiftKey && event.key === 'H' )
+  if ( event.ctrlKey && event.key === '`' )
     highlightText()
 } )
 
